@@ -6,7 +6,11 @@
 
 ```hcl
 module "cf_dist" {
-  source = "git@github.com:byu-oit/terraform-aws-cloudfront-dist?ref=v1.0.0"
+  source             = "git@github.com:byu-oit/terraform-aws-cloudfront-dist?ref=v1.0.0"
+  env_tag            = "dev"
+  origin_domain_name = "s3-bucket-name.us-west-2.amazonaws.com"
+  origin_id          = "s3-bucket-name"
+  repo_name          = "test"
 }
 ```
 
@@ -29,6 +33,10 @@ module "cf_dist" {
 | cname | string | The CNAME for the distribution. *DNS must be setup separately*. |
 | cname_ssl_cert_arn | string | The ARN for the SSL cert for the custom URL. |
 | wait_for_deployment | bool | Wait for the distribution to fully deploy before Terraform completes. | `true` |
+| query_string_forwarding | bool | Defines if the distribution should forward the query string. | `false` |
+| cookies_forwarding | string | Defines if the distribution forward cookies. You can specify `all` or `none` | none |
+| allowed_methods | set(string) | Methods the distribution will forward. | ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"] |
+| cached_methods | set(string) | Methods the distribution will cache. | ["GET", "HEAD"] |
 
 ## Outputs
 

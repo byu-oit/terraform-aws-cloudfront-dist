@@ -59,3 +59,27 @@ variable "wait_for_deployment" {
   type        = bool
   description = "Wait for the distribution to fully deploy before Terraform completes."
 }
+
+variable "query_string_forwarding" {
+  default     = false
+  type        = bool
+  description = "Defines if the distribution should forward the query string."
+}
+
+variable "cookies_forwarding" {
+  default     = "none"
+  type        = string
+  description = "Defines if the distribution forward cookies. You can specify \"all\" or \"none\""
+}
+
+variable "allowed_methods" {
+  type        = set(string)
+  default     = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+  description = "Methods the distribution will forward."
+}
+
+variable "cached_methods" {
+  type        = set(string)
+  default     = ["GET", "HEAD"]
+  description = "Methods the distribution will cache."
+}
