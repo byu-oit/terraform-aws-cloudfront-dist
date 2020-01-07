@@ -72,5 +72,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     minimum_protocol_version = "TLSv1.1_2016"
   }
 
+  wait_for_deployment = var.wait_for_deployment
+
   tags = local.tags
 }

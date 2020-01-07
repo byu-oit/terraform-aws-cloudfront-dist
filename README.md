@@ -23,14 +23,15 @@ module "cf_dist" {
 | repo_name | string | The name of the repo containing the site. |
 | price_class | number | The price class of the distribution. | 100 |
 | origin_domain_name | string | The domain name of the origin. |
-| origin_id | string | A unique ID for the origin. |
+| origin_id | string | A unique ID for thebv origin. |
 | origin_path | string | Path to where the distribution should send traffic. | *Empty String* |
 | index_doc | string | The index document of the distribution. |
 | cname | string | The CNAME for the distribution. *DNS must be setup separately*. |
 | cname_ssl_cert_arn | string | The ARN for the SSL cert for the custom URL. |
+| wait_for_deployment | bool | Wait for the distribution to fully deploy before Terraform completes. | `true` |
 
 ## Outputs
 
-| Name | Description |
-| --- | --- |
-| cloudfront_dist | The [CloudFront distribution](https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#attribute-reference) object. |
+| Name | Type | Description |
+| --- | --- | --- |
+| cloudfront_dist | object | The [CloudFront distribution](https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#attribute-reference) object. |

@@ -43,11 +43,19 @@ variable "index_doc" {
 }
 
 variable "cname" {
+  default     = ""
   type        = string
   description = "The CNAME for the distribution (DNS must be setup seperately)."
 }
 
 variable "cname_ssl_cert_arn" {
+  default     = ""
   type        = string
   description = "The ARN for the SSL cert for the custom URL."
+}
+
+variable "wait_for_deployment" {
+  default     = true
+  type        = bool
+  description = "Wait for the distribution to fully deploy before Terraform completes."
 }
