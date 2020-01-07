@@ -30,6 +30,12 @@ variable "origin_id" {
   description = "A unique ID for the origin."
 }
 
+variable "origin_protocol_policy" {
+  type        = string
+  default     = "match-viewer"
+  description = "The origin protocol policy to apply to your origin."
+}
+
 variable "origin_path" {
   default     = ""
   type        = string

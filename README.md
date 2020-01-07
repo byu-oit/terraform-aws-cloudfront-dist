@@ -29,6 +29,7 @@ module "cf_dist" {
 | origin_domain_name | string | The domain name of the origin. |
 | origin_id | string | A unique ID for thebv origin. |
 | origin_path | string | Path to where the distribution should send traffic. | *Empty String* |
+| origin_protocol_policy | string | The origin protocol policy to apply to your origin. | match-viewer |
 | index_doc | string | The index document of the distribution. |
 | cname | string | The CNAME for the distribution. *DNS must be setup separately*. |
 | cname_ssl_cert_arn | string | The ARN for the SSL cert for the custom URL. |
