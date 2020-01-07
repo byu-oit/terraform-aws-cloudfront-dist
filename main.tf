@@ -5,3 +5,74 @@ terraform {
   }
 }
 
+provider "aws" {
+  alias  = "aws_n_va"
+  region = "us-east-1"
+}
+
+locals {
+  tags = {
+    env              = var.env_tag
+    data-sensitivity = var.data_sensitivity_tag
+    repo             = "https://github.com/byu-oit/${var.repo_name}"
+  }
+}
+
+data "aws_iam_account_alias" "current" {}
+
+data "aws_acm_certificate" "nva_account_cert" {
+  provider = aws.aws_n_va
+  domain   = "${data.aws_iam_account_alias.current.account_alias}.amazon.byu.edu"
+}
+
+resource "aws_cloudfront_distribution" "cdn" {
+  price_class = "PriceClass_${var.price_class}"
+  origin {
+    domain_name = var.origin_domain_name
+    origin_id   = var.origin_id
+    origin_path = var.origin_path
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = var.origin_protocol_policy
+      origin_ssl_protocols   = ["TLSv1.2", "TLSv1.1", "TLSv1"]
+    }
+  }
+
+  comment             = "CDN for ${var.repo_name}"
+  enabled             = true
+  is_ipv6_enabled     = true
+  default_root_object = var.index_doc
+  aliases             = var.cname != "" ? [var.cname] : ["${var.repo_name}.${data.aws_iam_account_alias.current.account_alias}.amazon.byu.edu"]
+
+  default_cache_behavior {
+    target_origin_id = var.origin_id
+    allowed_methods  = var.allowed_methods
+    cached_methods   = var.cached_methods
+
+    forwarded_values {
+      query_string = var.query_string_forwarding
+      cookies {
+        forward = var.cookies_forwarding
+      }
+    }
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    acm_certificate_arn      = var.cname == "" ? data.aws_acm_certificate.nva_account_cert.arn : var.cname_ssl_cert_arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.1_2016"
+  }
+
+  wait_for_deployment = var.wait_for_deployment
+
+  tags = local.tags
+}
