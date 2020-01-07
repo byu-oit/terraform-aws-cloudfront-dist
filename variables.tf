@@ -15,9 +15,9 @@ variable "repo_name" {
 }
 
 variable "price_class" {
-  type        = string
+  type        = number
   default     = 100
-  description = "The price class of the CloudFront disribution."
+  description = "The price class of the disribution."
 }
 
 variable "origin_domain_name" {
@@ -33,7 +33,7 @@ variable "origin_id" {
 variable "origin_path" {
   default     = ""
   type        = string
-  description = "Path to where the distribution should redirect."
+  description = "Path to where the distribution should send traffic."
 }
 
 variable "index_doc" {

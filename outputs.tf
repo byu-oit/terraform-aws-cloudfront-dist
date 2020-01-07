@@ -1,3 +1,3 @@
-output "cloudfront_distribution" {
+output "cloudfront_dist" {
   value = aws_cloudfront_distribution.cdn
 }
