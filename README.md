@@ -6,7 +6,7 @@
 
 ```hcl
 module "cf_dist" {
-  source             = "git@github.com:byu-oit/terraform-aws-cloudfront-dist?ref=v1.0.0"
+  source             = "github.com/byu-oit/terraform-aws-cloudfront-dist?ref=v1.0.0"
   env_tag            = "dev"
   origin_domain_name = "s3-bucket-name.us-west-2.amazonaws.com"
   origin_id          = "s3-bucket-name"
